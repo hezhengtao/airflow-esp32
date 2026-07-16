@@ -1,0 +1,45 @@
+{
+    "C_Cpp.intelliSenseEngine": "default",
+    "idf.espIdfPathWin": "C:\\Users\\Tiky\\esp\\v5.4\\esp-idf",
+    "idf.pythonInstallPath": "C:\\Espressif\\tools\\idf-python\\3.11.2\\python.exe",
+    "idf.espAdfPathWin": "C:\\Espressif\\esp-adf",
+    "idf.openOcdConfigs": [
+        "board/esp32s3-builtin.cfg"
+    ],
+    "idf.portWin": "COM12",
+    "idf.toolsPathWin": "c:\\Espressif",
+    "idf.customExtraVars": {
+        "OPENOCD_SCRIPTS": "d:\\ESP-IDF\\tools\\openocd-esp32\\v0.10.0-esp32-20210401/openocd-esp32/share/openocd/scripts",
+        "IDF_CCACHE_ENABLE": "1",
+        "IDF_TARGET": "esp32s3"
+    },
+    "files.associations": {
+        "lv_demos.h": "c",
+        "lvgl.h": "c",
+        "lv_demo_widgets.h": "c",
+        "cstdlib": "c",
+        "lcd_tk0134.h": "c",
+        "lv_demo_stress.h": "c",
+        "task.h": "c",
+        "esp_dma_utils.h": "c",
+        "spi_master.h": "c",
+        "spi_hal.h": "c",
+        "ui.h": "c",
+        "esp_lcd_touch.h": "c",
+        "gpio.h": "c",
+        "esp_lcd_touch_ctp.h": "c",
+        "esp_lcd_panel_vendor.h": "c",
+        "esp_lcd_touch_ft5x06.h": "c",
+        "esp_lcd_panel_commands.h": "c",
+        "lcd_tk040f1510.h": "c",
+        "lv_demo_music.h": "c",
+        "chrono": "cpp",
+        "lcd_tk019f1935.h": "c",
+        "esp_lcd_panel_io.h": "c",
+        "myui.h": "c",
+        "battery.h": "c",
+        "lcd_tk019f1935_touch.h": "c",
+        "i2c_master.h": "c"
+    },
+    "idf.flashType": "UART"
+}

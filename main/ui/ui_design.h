@@ -1,0 +1,142 @@
+#pragma once
+
+#include "lvgl.h"
+
+/* ── Theme-aware dynamic color functions ────────────────────────── */
+lv_color_t ui_color_bg(void);
+lv_color_t ui_color_surface(void);
+lv_color_t ui_color_surface_light(void);
+lv_color_t ui_color_text(void);
+lv_color_t ui_color_text_secondary(void);
+lv_color_t ui_color_text_muted(void);
+
+/* Accent + AQI are theme-independent */
+#define UI_ACCENT           lv_color_hex(0x0DBFC0)
+#define UI_ACCENT_SOFT      lv_color_hex(0x0A8A8B)
+#define UI_DANGER           lv_color_hex(0xEF4444)
+
+/* AQI scale */
+#define UI_GOOD             lv_color_hex(0x4ADE80)
+#define UI_MODERATE         lv_color_hex(0xFACC15)
+#define UI_UNHEALTHY        lv_color_hex(0xF97316)
+#define UI_BAD              lv_color_hex(0xEF4444)
+#define UI_HAZARDOUS        lv_color_hex(0xA855F7)
+
+/* Dynamic macros — evaluate theme at every call site */
+#define UI_BG               ui_color_bg()
+#define UI_SURFACE           ui_color_surface()
+#define UI_SURFACE_LIGHT     ui_color_surface_light()
+#define UI_TEXT              ui_color_text()
+#define UI_TEXT_SECONDARY    ui_color_text_secondary()
+#define UI_TEXT_MUTED        ui_color_text_muted()
+
+/* Shape */
+#define UI_RADIUS_CARD      16
+#define UI_RADIUS_BTN       12
+#define UI_RADIUS_SM        8
+
+/* ── Landscape layout grid (800×480, left icon nav rail) ─────────────
+ * A persistent 72px icon rail lives on the left; every screen lays out
+ * inside the 728×480 content area to its right.  Screens must set their
+ * root to (UI_CONTENT_X, 0) size (UI_CONTENT_W × UI_CONTENT_H) and keep
+ * all elements within that box — no scrollbars anywhere. */
+#define UI_NAV_W            72
+#define UI_CONTENT_X        UI_NAV_W          /* 72 */
+#define UI_CONTENT_W        (800 - UI_NAV_W)  /* 728 */
+#define UI_CONTENT_H        480
+#define UI_GUTTER           12
+
+/* ── Flat (iOS-style) group helper ───────────────────────────────────
+ * Replaces raised "cards": a transparent container with no fill, border,
+ * shadow, radius or scroll — content sits flat on the screen background.
+ * Groups are separated by whitespace + hairline dividers, not surfaces. */
+static inline void ui_flat_group(lv_obj_t *o)
+{
+    lv_obj_set_style_bg_opa(o, LV_OPA_TRANSP, LV_PART_MAIN);
+    lv_obj_set_style_border_width(o, 0, LV_PART_MAIN);
+    lv_obj_set_style_shadow_width(o, 0, LV_PART_MAIN);
+    lv_obj_set_style_radius(o, 0, LV_PART_MAIN);
+    lv_obj_set_style_pad_all(o, 0, LV_PART_MAIN);
+    lv_obj_remove_flag(o, LV_OBJ_FLAG_SCROLLABLE);
+    lv_obj_set_scroll_dir(o, LV_DIR_NONE);
+    lv_obj_set_scrollbar_mode(o, LV_SCROLLBAR_MODE_OFF);
+}
+
+/* Flatten only the surface visuals (fill/border/shadow/radius), KEEPING the
+ * object's existing padding & scroll config so child coordinates don't move.
+ * Use on containers that were styled with lg_style_card(). */
+static inline void ui_flat_surface(lv_obj_t *o)
+{
+    lv_obj_set_style_bg_opa(o, LV_OPA_TRANSP, LV_PART_MAIN);
+    lv_obj_set_style_border_width(o, 0, LV_PART_MAIN);
+    lv_obj_set_style_shadow_width(o, 0, LV_PART_MAIN);
+    lv_obj_set_style_radius(o, 0, LV_PART_MAIN);
+}
+
+/* Shared hairline style (defined in ui_theme.c) — refreshed on theme change */
+lv_style_t *ui_style_hairline(void);
+
+/* Thin 1px hairline divider at (x,y) width w on parent.
+ * Uses the shared hairline style so it follows dark/light theme changes. */
+static inline lv_obj_t *ui_flat_divider(lv_obj_t *parent, int x, int y, int w)
+{
+    lv_obj_t *ln = lv_obj_create(parent);
+    lv_obj_add_style(ln, ui_style_hairline(), LV_PART_MAIN);
+    lv_obj_set_size(ln, w, 1);
+    lv_obj_set_pos(ln, x, y);
+    lv_obj_remove_flag(ln, LV_OBJ_FLAG_SCROLLABLE);
+    return ln;
+}
+
+/* ── Backward-compatible aliases ─────────────────────────────────── */
+#define LG_BG_TOP           UI_BG
+#define LG_BG_BOTTOM        UI_BG
+#define LG_GLOW_1           UI_SURFACE
+#define LG_GLOW_2           UI_SURFACE
+#define LG_GLASS_BG         UI_SURFACE
+#define LG_GLASS_OPA        LV_OPA_COVER
+#define LG_GLASS_BORDER     UI_SURFACE_LIGHT
+#define LG_GLASS_BORDER_OPA 255
+#define LG_TEXT_PRIMARY     UI_TEXT
+#define LG_TEXT_SECONDARY   UI_TEXT_SECONDARY
+#define LG_TEXT_TERTIARY    UI_TEXT_MUTED
+#define LG_ACCENT           UI_ACCENT
+#define LG_ACCENT_SOFT      UI_ACCENT_SOFT
+#define LG_DANGER           UI_DANGER
+#define LG_GOOD             UI_GOOD
+#define LG_MODERATE         UI_MODERATE
+#define LG_UNHEALTHY        UI_UNHEALTHY
+#define LG_BAD              UI_BAD
+#define LG_HAZARDOUS        UI_HAZARDOUS
+#define LG_RADIUS_CARD      UI_RADIUS_CARD
+#define LG_RADIUS_BTN       UI_RADIUS_BTN
+#define LG_RADIUS_SM        UI_RADIUS_SM
+#define LG_SHADOW_Y         0
+#define LG_SHADOW_SPREAD    0
+#define LG_SHADOW_OPA       0
+#define LG_DARK_BG          UI_BG
+#define LG_DARK_GLASS_BG    UI_SURFACE
+#define LG_DARK_GLASS_OPA   255
+#define LG_DARK_TEXT        UI_TEXT
+#define LG_DARK_TEXT_SEC    UI_TEXT_SECONDARY
+
+/* ── Font helpers ──────────────────────────────────────────────────── */
+/* Custom CJK fonts (SourceHanSansCN), generated by lv_font_conv */
+extern const lv_font_t font_cjk_22;
+extern const lv_font_t font_cjk_28;
+extern const lv_font_t font_cjk_36;
+extern const lv_font_t font_cjk_48;
+extern const lv_font_t font_melody;   /* 22px — 42 melody-name glyphs only */
+static inline const lv_font_t *ui_font_melody(void) { return &font_melody; }
+static inline const lv_font_t *ui_font_text(void) {
+    return &font_cjk_22;
+}
+static inline const lv_font_t *ui_font_cjk_28(void) {
+    return &font_cjk_28;
+}
+static inline const lv_font_t *ui_font_cjk_36(void) {
+    return &font_cjk_36;
+}
+static inline const lv_font_t *ui_font_cjk_48(void) {
+    return &font_cjk_48;
+}

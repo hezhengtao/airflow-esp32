@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AiRFLOW 智能空气净化器 — 完整系统接线总图</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif; background: #0f172a; color: #e2e8f0; }
+  .container { max-width: 1400px; margin: 0 auto; padding: 20px; }
+  h1 { text-align: center; font-size: 28px; margin: 20px 0; color: #818cf8; }
+  h2 { font-size: 20px; color: #a78bfa; margin: 30px 0 12px; border-bottom: 1px solid #334155; padding-bottom: 6px; }
+
+  .diagram { background: #1e293b; border-radius: 16px; padding: 30px; overflow-x: auto; }
+  svg { display: block; margin: 0 auto; }
+
+  .legend { display: flex; flex-wrap: wrap; gap: 16px; margin: 16px 0; }
+  .legend-item { display: flex; align-items: center; gap: 8px; font-size: 13px; }
+  .legend-color { width: 20px; height: 12px; border-radius: 3px; }
+  .legend-dash { width: 20px; height: 2px; border-radius: 1px; }
+
+  .bom { background: #1e293b; border-radius: 16px; padding: 24px; margin: 20px 0; }
+  .bom table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .bom th { background: #334155; padding: 10px 8px; text-align: left; position: sticky; top: 0; }
+  .bom td { padding: 8px; border-bottom: 1px solid #1e293b; }
+  .bom tr:nth-child(even) { background: rgba(255,255,255,0.03); }
+  .bom tr:hover { background: rgba(129,140,248,0.1); }
+
+  .steps { background: #1e293b; border-radius: 16px; padding: 24px; margin: 20px 0; }
+  .step { display: flex; gap: 16px; margin: 16px 0; padding: 16px; background: rgba(255,255,255,0.03); border-radius: 10px; border-left: 3px solid #818cf8; }
+  .step-num { flex-shrink: 0; width: 36px; height: 36px; background: #818cf8; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 16px; }
+  .step-body h4 { margin-bottom: 6px; color: #c4b5fd; }
+  .step-body p, .step-body ul { font-size: 13px; line-height: 1.7; color: #94a3b8; }
+  .step-body ul { padding-left: 20px; }
+  .step-body code { background: #334155; padding: 1px 6px; border-radius: 3px; font-size: 12px; color: #fbbf24; }
+
+  .warning { background: #7f1d1d; border: 1px solid #dc2626; border-radius: 10px; padding: 16px; margin: 16px 0; font-size: 13px; }
+  .tip { background: #064e3b; border: 1px solid #059669; border-radius: 10px; padding: 16px; margin: 16px 0; font-size: 13px; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1>AiRFLOW 智能空气净化器 — 完整系统接线总图</h1>
+
+<h2>系统总装接线图 (彩色全景)</h2>
+
+<div class="legend">
+  <div class="legend-item"><div class="legend-color" style="background:#f59e0b"></div>电源正极 (3.3V / 5V / 12V)</div>
+  <div class="legend-item"><div class="legend-color" style="background:#1e293b;border:1px solid #64748b"></div>电源地 (GND)</div>
+  <div class="legend-item"><div class="legend-color" style="background:#818cf8"></div>数据 / 信号线</div>
+  <div class="legend-item"><div class="legend-color" style="background:#34d399"></div>I2C (SDA / SCL)</div>
+  <div class="legend-item"><div class="legend-color" style="background:#fb923c"></div>UART (TX / RX)</div>
+  <div class="legend-item"><div class="legend-color" style="background:#f472b6"></div>PWM / 模拟</div>
+  <div class="legend-item"><div class="legend-dash" style="background:#a78bfa;border-style:dashed;border-color:#a78bfa"></div>杜邦线飞线</div>
+</div>
+
+<div class="diagram">
+<svg viewBox="0 0 1300 1680" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arrowPwr" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#f59e0b"/></marker>
+    <marker id="arrowGND" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#64748b"/></marker>
+    <marker id="arrowData" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#818cf8"/></marker>
+    <marker id="arrowI2C" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#34d399"/></marker>
+    <marker id="arrowUART" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#fb923c"/></marker>
+    <marker id="arrowPWM" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#f472b6"/></marker>
+    <linearGradient id="gradMCU" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#312e81"/><stop offset="100%" stop-color="#1e1b4b"/></linearGradient>
+    <linearGradient id="gradLCD" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#1e3a5f"/><stop offset="100%" stop-color="#0f172a"/></linearGradient>
+    <linearGradient id="gradPeriph" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#1e293b"/><stop offset="100%" stop-color="#0f172a"/></linearGradient>
+    <filter id="glow"><feGaussianBlur stdDeviation="3" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  </defs>
+
+  <!-- Background grid -->
+  <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M 40 0 L 0 0 0 40" fill="none" stroke="#ffffff08"/></pattern>
+  <rect width="1300" height="1680" fill="url(#grid)"/>
+
+  <!-- 1. POWER SUPPLY SECTION -->
+  <rect x="30" y="20" width="260" height="200" rx="12" fill="url(#gradPeriph)" stroke="#334155" stroke-width="1.5"/>
+  <text x="160" y="46" text-anchor="middle" fill="#f59e0b" font-size="14" font-weight="bold">电源输入</text>
+  <line x1="160" y1="52" x2="160" y2="52" stroke="#f59e0b" stroke-width="1" width="80"/>
+
+  <rect x="48" y="62" width="224" height="28" rx="5" fill="#1e293b" stroke="#475569" stroke-width="1"/>
+  <text x="160" y="80" text-anchor="middle" fill="#e2e8f0" font-size="11">USB-C PD (ESP32-S3 开发板)</text>
+
+  <rect x="48" y="98" width="224" height="28" rx="5" fill="#1e293b" stroke="#475569" stroke-width="1"/>
+  <text x="160" y="116" text-anchor="middle" fill="#e2e8f0" font-size="11">12V DC 适配器 (电机 + LCD)</text>
+
+  <rect x="48" y="142" width="72" height="20" rx="4" fill="#f59e0b"/>
+  <text x="84" y="156" text-anchor="middle" fill="#000" font-size="10" font-weight="bold">3.3V</text>
+  <rect x="128" y="142" width="60" height="20" rx="4" fill="#fbbf24"/>
+  <text x="158" y="156" text-anchor="middle" fill="#000" font-size="10" font-weight="bold">5V</text>
+  <rect x="196" y="142" width="76" height="20" rx="4" fill="#ea580c"/>
+  <text x="234" y="156" text-anchor="middle" fill="#fff" font-size="10" font-weight="bold">12V</text>
+
+  <text x="160" y="182" text-anchor="middle" fill="#94a3b8" font-size="9">+ 100nF 退耦电容 x4</text>
+  <text x="160" y="196" text-anchor="middle" fill="#94a3b8" font-size="9">(焊接在 VCC-GND 之间)</text>
+  <text x="160" y="214" text-anchor="middle" fill="#94a3b8" font-size="9">cap 104 (100nF), 焊接在面包板上</text>
+
+  <!-- 2. ESP32-S3 MCU -->
+  <rect x="420" y="40" width="460" height="680" rx="16" fill="url(#gradMCU)" stroke="#6366f1" stroke-width="2" filter="url(#glow)"/>
+  <text x="650" y="70" text-anchor="middle" fill="#a5b4fc" font-size="18" font-weight="bold">ESP32-S3 DevKitC</text>
+  <text x="650" y="90" text-anchor="middle" fill="#818cf8" font-size="11">AiRFLOW 智能空气净化器 主控</text>
+
+  <!-- GPIO pins -->
+  <g font-size="10" font-family="monospace">
+    <text x="435" y="118" fill="#94a3b8">3.3V ════════════════╗</text>
+    <text x="435" y="136" fill="#94a3b8">GND  ════════════════╣</text>
+    <text x="435" y="154" fill="#94a3b8">EN   ════════════════╣</text>
+
+    <!-- LCD data bus -->
+    <text x="435" y="182" fill="#818cf8">GPIO4  ═ LCD D0 ═══════╣</text>
+    <text x="435" y="200" fill="#818cf8">GPIO5  ═ LCD D1 ═══════╣</text>
+    <text x="435" y="218" fill="#818cf8">GPIO6  ═ LCD D2 ═══════╣</text>
+    <text x="435" y="236" fill="#818cf8">GPIO7  ═ LCD D3 ═══════╣</text>
+    <text x="435" y="254" fill="#818cf8">GPIO15 ═ LCD D4 ═══════╣</text>
+    <text x="435" y="272" fill="#818cf8">GPIO16 ═ LCD D5 ═══════╣</text>
+    <text x="435" y="290" fill="#818cf8">GPIO17 ═ LCD D6 ═══════╣</text>
+    <text x="435" y="308" fill="#818cf8">GPIO18 ═ LCD D7 ═══════╣</text>
+    <!-- LCD control -->
+    <text x="435" y="326" fill="#818cf8">GPIO1  ═ LCD CS ═══════╣</text>
+    <text x="435" y="344" fill="#818cf8">GPIO42 ═ LCD RS ═══════╣</text>
+    <text x="435" y="362" fill="#818cf8">GPIO2  ═ LCD WR ═══════╣</text>
+    <text x="435" y="380" fill="#818cf8">GPIO46 ═ LCD RST ══════╣</text>
+    <text x="435" y="398" fill="#94a3b8">BL ─── NC (硬件背光) ═══╣</text>
+
+    <!-- Touch I2C -->
+    <text x="435" y="426" fill="#34d399">GPIO20 ═ TOUCH SDA ════╣</text>
+    <text x="435" y="444" fill="#34d399">GPIO13 ═ TOUCH SCL ════╣</text>
+    <text x="435" y="462" fill="#94a3b8">INT ─── NC ════════════╣</text>
+    <text x="435" y="480" fill="#94a3b8">RST ─── NC ════════════╣</text>
+
+    <!-- Motor -->
+    <text x="435" y="508" fill="#f472b6">GPIO38 ═ MOTOR START ══╣</text>
+    <text x="435" y="526" fill="#f472b6">GPIO39 ═ MOTOR PWM ════╣</text>
+    <text x="435" y="544" fill="#f472b6">GPIO40 ═ MOTOR FG ═════╣</text>
+
+    <!-- Y01 -->
+    <text x="435" y="572" fill="#fb923c">GPIO41 ═ Y01 TX ═══════╣</text>
+    <text x="435" y="590" fill="#fb923c">GPIO9  ═ Y01 RX ═══════╣</text>
+
+    <!-- Speaker -->
+    <text x="435" y="618" fill="#f472b6">GPIO48 ═ SPEAKER PWM ══╣</text>
+
+    <!-- PT1000 -->
+    <text x="435" y="646" fill="#f472b6">GPIO3  ═ PT1000/DS18B20 ═══╣</text>
+
+    <text x="435" y="666" fill="#64748b">GND  ════════════════╝</text>
+  </g>
+
+  <!-- 3. LCD (NT35510, TK043F1509) -->
+  <rect x="940" y="40" width="330" height="370" rx="12" fill="url(#gradLCD)" stroke="#3b82f6" stroke-width="1.5"/>
+  <text x="1105" y="66" text-anchor="middle" fill="#60a5fa" font-size="15" font-weight="bold">LCD 显示屏</text>
+  <text x="1105" y="82" text-anchor="middle" fill="#93c5fd" font-size="11">TK043F1509 (NT35510)</text>
+  <text x="1105" y="96" text-anchor="middle" fill="#94a3b8" font-size="10">800x480 物理 · MADCTL 旋转竖屏 480x800</text>
+
+  <g font-size="10" font-family="monospace">
+    <text x="955" y="122" fill="#818cf8">D0  (GPIO4)  ═══ PIN 4</text>
+    <text x="955" y="140" fill="#818cf8">D1  (GPIO5)  ═══ PIN 5</text>
+    <text x="955" y="158" fill="#818cf8">D2  (GPIO6)  ═══ PIN 6</text>
+    <text x="955" y="176" fill="#818cf8">D3  (GPIO7)  ═══ PIN 7</text>
+    <text x="955" y="194" fill="#818cf8">D4  (GPIO15) ═══ PIN 15</text>
+    <text x="955" y="212" fill="#818cf8">D5  (GPIO16) ═══ PIN 16</text>
+    <text x="955" y="230" fill="#818cf8">D6  (GPIO17) ═══ PIN 17</text>
+    <text x="955" y="248" fill="#818cf8">D7  (GPIO18) ═══ PIN 18</text>
+    <text x="955" y="266" fill="#818cf8">CS  (GPIO1)  ═══ PIN 1</text>
+    <text x="955" y="284" fill="#818cf8">RS  (GPIO42) ═══ PIN 42</text>
+    <text x="955" y="302" fill="#818cf8">WR  (GPIO2)  ═══ PIN 2</text>
+    <text x="955" y="320" fill="#818cf8">RST (GPIO46) ═══ PIN 46</text>
+    <text x="955" y="338" fill="#94a3b8">BL  (NC) ─── 硬件控制背光</text>
+  </g>
+
+  <text x="955" y="368" fill="#f59e0b" font-size="10">VCC ──→ 5V (来自 ESP32 5V 输出)</text>
+  <text x="955" y="384" fill="#64748b" font-size="10">GND ──→ GND (任何 GND 引脚)</text>
+
+  <!-- 4. FT5x06 Touch -->
+  <rect x="940" y="425" width="330" height="160" rx="12" fill="url(#gradPeriph)" stroke="#34d399" stroke-width="1.5"/>
+  <text x="1105" y="451" text-anchor="middle" fill="#34d399" font-size="14" font-weight="bold">触摸控制器 FT5x06</text>
+  <text x="1105" y="467" text-anchor="middle" fill="#94a3b8" font-size="10">I2C 地址: 0x38 | 集成在 LCD 模组内</text>
+
+  <g font-size="10" font-family="monospace">
+    <text x="955" y="491" fill="#34d399">SDA (GPIO20) ──→ 4.7kΩ ──→ 3.3V  [上拉]</text>
+    <text x="955" y="509" fill="#34d399">SCL (GPIO13) ──→ 4.7kΩ ──→ 3.3V  [上拉]</text>
+    <text x="955" y="527" fill="#94a3b8">INT ── NC (未连接)</text>
+    <text x="955" y="545" fill="#94a3b8">RST ── NC (未连接)</text>
+    <text x="955" y="563" fill="#f59e0b">VCC ──→ 3.3V (ESP32 3.3V 输出)</text>
+    <text x="955" y="581" fill="#64748b">GND ──→ GND</text>
+  </g>
+
+  <!-- 5. BLDC Motor -->
+  <rect x="30" y="240" width="260" height="200" rx="12" fill="url(#gradPeriph)" stroke="#f472b6" stroke-width="1.5"/>
+  <text x="160" y="266" text-anchor="middle" fill="#f472b6" font-size="14" font-weight="bold">BLDC 无刷电机</text>
+  <text x="160" y="282" text-anchor="middle" fill="#94a3b8" font-size="10">48F704P840 | 12V</text>
+
+  <g font-size="10" font-family="monospace">
+    <text x="45" y="306" fill="#f472b6">START (GPIO38) ──→ 4.7kΩ ──→ GND</text>
+    <text x="45" y="322" fill="#94a3b8" font-size="9">  [下拉电阻, 确保开机不误启动]</text>
+    <text x="45" y="342" fill="#f472b6">PWM  (GPIO39) ──→ 25kHz LEDC</text>
+    <text x="45" y="362" fill="#f472b6">FG   (GPIO40) ──→ 转速反馈 (PCNT)</text>
+    <text x="45" y="382" fill="#ea580c">12V  ──→ 电机驱动器电源</text>
+    <text x="45" y="400" fill="#64748b">GND  ──→ 共地 (必须!)</text>
+  </g>
+
+  <rect x="45" y="414" width="230" height="22" rx="4" fill="#7f1d1d" stroke="#dc2626"/>
+  <text x="160" y="430" text-anchor="middle" fill="#fca5a5" font-size="10" font-weight="bold">⚠ 470uF/25V 电解电容 (低ESR)</text>
+
+  <!-- 6. Y01 Sensor -->
+  <rect x="940" y="600" width="330" height="138" rx="12" fill="url(#gradPeriph)" stroke="#fb923c" stroke-width="1.5"/>
+  <text x="1105" y="626" text-anchor="middle" fill="#fb923c" font-size="14" font-weight="bold">空气质量传感器 Y01</text>
+  <text x="1105" y="642" text-anchor="middle" fill="#94a3b8" font-size="10">TVOC / CO2 / CH2O | UART 9600baud</text>
+
+  <g font-size="10" font-family="monospace">
+    <text x="955" y="668" fill="#fb923c">TX (GPIO41) ──→ Y01 RX 引脚</text>
+    <text x="955" y="686" fill="#fb923c">RX (GPIO9)  ──→ Y01 TX 引脚</text>
+    <text x="955" y="704" fill="#fbbf24">VCC ──→ 5V (需要 5V 供电!)</text>
+    <text x="955" y="722" fill="#64748b">GND ──→ GND</text>
+  </g>
+
+  <!-- 7. Temperature Sensor (PT1000 / DS18B20) -->
+  <rect x="30" y="460" width="260" height="190" rx="12" fill="url(#gradPeriph)" stroke="#f472b6" stroke-width="1.5"/>
+  <text x="160" y="486" text-anchor="middle" fill="#f472b6" font-size="14" font-weight="bold">温度传感器 (二选一)</text>
+  <text x="160" y="502" text-anchor="middle" fill="#94a3b8" font-size="10">PT1000 模拟 / DS18B20 数字</text>
+
+  <!-- Option A: PT1000 -->
+  <text x="45" y="526" fill="#f59e0b" font-size="10" font-weight="bold">● 方案A: PT1000 (ADC 分压)</text>
+  <g font-size="10" font-family="monospace">
+    <text x="45" y="544" fill="#f59e0b">3.3V ──→ 1kΩ (参考电阻) ──→ GPIO3 (ADC)</text>
+    <text x="45" y="560" fill="#94a3b8" font-size="9">     ──→ 1kΩ 0.1% 精密电阻 (Rref)</text>
+    <text x="45" y="576" fill="#f472b6">GPIO3 (ADC1_CH3) ──→ PT1000 ──→ GND</text>
+  </g>
+
+  <!-- Option B: DS18B20 -->
+  <text x="45" y="600" fill="#10b981" font-size="10" font-weight="bold">● 方案B: DS18B20 (OneWire, 推荐)</text>
+  <g font-size="10" font-family="monospace">
+    <text x="45" y="618" fill="#10b981">GPIO3 ──→ DS18B20 DQ (黄)</text>
+    <text x="45" y="634" fill="#94a3b8" font-size="9">     DQ ──→ 4.7kΩ 上拉 ──→ 3.3V</text>
+    <text x="45" y="650" fill="#94a3b8" font-size="9">     DS18B20 VDD(红) → 3.3V | GND(黑) → GND</text>
+  </g>
+
+  <!-- 8. Speaker -->
+  <rect x="30" y="650" width="260" height="170" rx="12" fill="url(#gradPeriph)" stroke="#f472b6" stroke-width="1.5"/>
+  <text x="160" y="676" text-anchor="middle" fill="#f472b6" font-size="14" font-weight="bold">扬声器 8Ω 2W</text>
+  <text x="160" y="692" text-anchor="middle" fill="#94a3b8" font-size="10">PAM8302 Class-D 功放</text>
+
+  <g font-size="10" font-family="monospace">
+    <text x="45" y="716" fill="#f472b6">GPIO48 (PWM) ──→ 100Ω ──┬──→ PAM8302 IN+</text>
+    <text x="45" y="734" fill="#94a3b8" font-size="9">                           │   (串联电阻)</text>
+    <text x="45" y="750" fill="#94a3b8" font-size="9">                           └──→ 10nF ──→ GND</text>
+    <text x="45" y="766" fill="#94a3b8" font-size="9">                           (对地旁路电容)</text>
+  </g>
+
+  <text x="45" y="792" fill="#94a3b8" font-size="9">RC 低通滤波: 截止频率 fc = 1/(2πx100x10nF) = 159kHz</text>
+  <text x="45" y="808" fill="#f59e0b" font-size="9">PAM8302 VDD ──→ 5V | PAM8302 GND ──→ GND</text>
+
+  <!-- 9. Passive Components -->
+  <rect x="940" y="758" width="330" height="135" rx="12" fill="url(#gradPeriph)" stroke="#475569" stroke-width="1.5"/>
+  <text x="1105" y="784" text-anchor="middle" fill="#a78bfa" font-size="13" font-weight="bold">被动元件汇总</text>
+  <g font-size="10">
+    <text x="955" y="806" fill="#94a3b8">🔴 4.7kΩ x2 — I2C 上拉 (SDA→3.3V, SCL→3.3V)</text>
+    <text x="955" y="824" fill="#94a3b8">🔴 4.7kΩ x1 — 电机 START 下拉 (GPIO38→GND)</text>
+    <text x="955" y="842" fill="#94a3b8">🔴 100Ω x1 — 扬声器 RC 串联 (GPIO48→PAM8302)</text>
+    <text x="955" y="860" fill="#94a3b8">🔵 10nF x1 — 扬声器 RC 旁路 (PAM8302 IN+→GND)</text>
+    <text x="955" y="878" fill="#94a3b8">🔵 100nF x4 — 退耦电容 (104, 陶瓷, 贴片/插件)</text>
+    <text x="955" y="896" fill="#94a3b8">🟡 470uF/25V — 电机滤波 (电解, 注意极性!)</text>
+  </g>
+
+</svg>
+</div>
+
+<!-- BOM -->
+<h2>物料清单 (Bill of Materials)</h2>
+<div class="bom">
+<table>
+<thead><tr>
+  <th>#</th><th>名称</th><th>规格 / 型号</th><th>数量</th><th>连接方式</th><th>备注</th>
+</tr></thead>
+<tbody>
+  <tr><td>1</td><td>ESP32-S3 DevKitC</td><td>ESP32-S3-WROOM-1 (N16R8)</td><td>1</td><td>USB-C 供电 + 编程</td><td>主控板</td></tr>
+  <tr><td>2</td><td>LCD 显示屏</td><td>TK043F1509 (NT35510) 800x480</td><td>1</td><td>40-Pin FPC 排线 → 转接板 → 杜邦线</td><td>8-bit 8080 并口</td></tr>
+  <tr><td>3</td><td>触摸控制器</td><td>FT5x06 (I2C 0x38)</td><td>1</td><td>集成在 LCD 模组内 (FPC)</td><td>含在LCD中</td></tr>
+  <tr><td>4</td><td>BLDC 无刷电机</td><td>48F704P840, 12V</td><td>1</td><td>3 线: START/PWM/FG + 12V/GND</td><td>含驱动板</td></tr>
+  <tr><td>5</td><td>空气质量传感器</td><td>Y01 (TVOC/CO2/CH2O)</td><td>1</td><td>4 线: 5V/GND/TX/RX</td><td>UART 9600baud</td></tr>
+  <tr><td>6</td><td>温度传感器</td><td>DS18B20 (推荐) 或 PT1000</td><td>1</td><td>DS18B20: GPIO3+4.7kΩ上拉; PT1000: GPIO3+1kΩ分压</td><td>OneWire / ADC</td></tr>
+  <tr><td>7</td><td>扬声器</td><td>8Ω 2W</td><td>1</td><td>2 线: PAM8302 OUT+/OUT-</td><td>经功放驱动</td></tr>
+  <tr><td>8</td><td>功放模块</td><td>PAM8302 Class-D</td><td>1</td><td>IN+ 接 RC 滤波, VDD→5V, GND→GND</td><td>小模块</td></tr>
+  <tr><td>9</td><td>12V 电源适配器</td><td>12V DC 2A+</td><td>1</td><td>DC 插头 / 接线端子</td><td>LCD+电机供电</td></tr>
+  <tr><td>10</td><td>面包板</td><td>830 孔 或 400 孔</td><td>1-2</td><td>焊接/插接所有被动元件</td><td></td></tr>
+  <tr><td>11</td><td>杜邦线</td><td>公对母 / 公对公</td><td>~50根</td><td>信号连接</td><td>至少 20cm</td></tr>
+  <tr><td>12</td><td>排针</td><td>2.54mm 直插</td><td>若干</td><td>焊接在面包板边缘</td><td>方便杜邦线连接</td></tr>
+
+  <tr style="background:#312e81"><td colspan="6" style="text-align:center;font-weight:bold;color:#a5b4fc">──── 被动元件 (焊接在面包板上) ────</td></tr>
+  <tr><td>13</td><td>电阻</td><td>4.7kΩ 1/4W (色环: 黄紫红金)</td><td>3</td><td>I2C上拉x2 + 电机下拉x1</td><td>±5% 碳膜即可</td></tr>
+  <tr><td>14</td><td>电阻</td><td>100Ω 1/4W (色环:棕黑棕金)</td><td>1</td><td>扬声器 RC 串联</td><td>限流</td></tr>
+  <tr><td>15</td><td>电阻</td><td>1kΩ 1/4W ±0.1% 精密 (色环:棕黑黑棕棕)</td><td>1</td><td>PT1000 分压参考电阻</td><td>精密电阻!</td></tr>
+  <tr><td>16</td><td>电容</td><td>10nF 陶瓷 (标号 103)</td><td>1</td><td>扬声器 RC 旁路 (IN+ → GND)</td><td>无极性</td></tr>
+  <tr><td>17</td><td>电容</td><td>100nF 陶瓷 (标号 104)</td><td>4</td><td>退耦: ESP32 3.3V, 电机 12V, Y01 5V, LCD 5V</td><td>无极性</td></tr>
+  <tr><td>18</td><td>电容</td><td>470uF/25V 电解 低ESR</td><td>1</td><td>电机 12V 滤波 (12V↔GND)</td><td>⛔有极性! 长脚+ 短脚-</td></tr>
+</tbody>
+</table>
+</div>
+
+<!-- STEP-BY-STEP GUIDE -->
+<h2>分步焊接与接线指南</h2>
+<div class="steps">
+
+<div class="step">
+  <div class="step-num">1</div>
+  <div class="step-body">
+    <h4>电源准备</h4>
+    <ul>
+      <li>ESP32-S3 通过 <code>USB-C</code> 供电 (5V)</li>
+      <li>12V 电源适配器给<b>电机</b>供电</li>
+      <li>在面包板上建立电源轨: <span style="color:#f59e0b"><b>3.3V</b></span> / <span style="color:#fbbf24"><b>5V</b></span> / <span style="color:#ea580c"><b>12V</b></span> / <span style="color:#64748b"><b>GND</b></span></li>
+      <li><b>焊接 4 颗 100nF (104) 退耦电容</b>, 分别跨接在 ESP32 3.3V ↔ GND, 电机 12V ↔ GND, Y01 5V ↔ GND, LCD 5V ↔ GND</li>
+    </ul>
+  </div>
+</div>
+
+<div class="step">
+  <div class="step-num">2</div>
+  <div class="step-body">
+    <h4>LCD 显示屏接线 (8-bit 并口 8080, 共 14 根)</h4>
+    <ul>
+      <li>LCD 通过 <b>40-Pin FPC 排线</b> 连接到 FPC-to-DIP 转接板</li>
+      <li><code>D0-D3</code> → <code>GPIO4 ~ GPIO7</code></li>
+      <li><code>D4-D7</code> → <code>GPIO15 ~ GPIO18</code></li>
+      <li><code>CS</code> → <code>GPIO1</code> (片选)</li>
+      <li><code>RS</code> → <code>GPIO42</code> (命令/数据选择)</li>
+      <li><code>WR</code> → <code>GPIO2</code> (写使能)</li>
+      <li><code>RST</code> → <code>GPIO46</code> (复位)</li>
+      <li><code>VCC</code> → <b>5V</b>  <code>GND</code> → <b>GND</b></li>
+    </ul>
+  </div>
+</div>
+
+<div class="step">
+  <div class="step-num">3</div>
+  <div class="step-body">
+    <h4>触摸 FT5x06 接线 (I2C, 4 根)</h4>
+    <ul>
+      <li>触摸控制器集成在 LCD 模组内, 通过同一 FPC 排线引出</li>
+      <li><code>SDA</code> → <code>GPIO20</code></li>
+      <li><code>SCL</code> → <code>GPIO13</code></li>
+      <li><b>焊接 4.7kΩ 上拉电阻 x2</b>: SDA→3.3V, SCL→3.3V</li>
+      <li><code>VCC</code> → <b>3.3V</b>  <code>GND</code> → <b>GND</b></li>
+    </ul>
+  </div>
+</div>
+
+<div class="step">
+  <div class="step-num">4</div>
+  <div class="step-body">
+    <h4>BLDC 电机接线 (5 根)</h4>
+    <ul>
+      <li><code>START</code> → <code>GPIO38</code></li>
+      <li><b>焊接 4.7kΩ 下拉电阻</b>: GPIO38 → GND</li>
+      <li><code>PWM</code> → <code>GPIO39</code> (25kHz 速度控制)</li>
+      <li><code>FG</code> → <code>GPIO40</code> (转速反馈脉冲)</li>
+      <li>电机电源 → <b>12V</b>, 电机 GND → <b>GND</b></li>
+      <li><b>⚠ 焊接 470uF/25V 电解电容</b> 在电机 12V ↔ GND 之间</li>
+    </ul>
+  </div>
+</div>
+
+<div class="step">
+  <div class="step-num">5</div>
+  <div class="step-body">
+    <h4>Y01 空气质量传感器接线 (4 根)</h4>
+    <ul>
+      <li><code>TX (GPIO41)</code> → Y01 RX 引脚</li>
+      <li><code>RX (GPIO9)</code> → Y01 TX 引脚</li>
+      <li><code>VCC</code> → <b>5V</b>  <code>GND</code> → <b>GND</b></li>
+    </ul>
+  </div>
+</div>
+
+<div class="step">
+  <div class="step-num">6</div>
+  <div class="step-body">
+    <h4>温度传感器接线 (PT1000 / DS18B20 二选一)</h4>
+    <ul>
+      <li><b>方案A PT1000 (模拟)</b>: <code>3.3V</code> → <code>1kΩ精密</code> → <code>GPIO3</code> → <code>PT1000</code> → <code>GND</code> (分压法, 需标定)</li>
+      <li><b>方案B DS18B20 (数字, 推荐)</b>: <code>GPIO3</code> → <code>DS18B20 DQ(黄)</code> | <code>DQ→4.7kΩ→3.3V(上拉)</code> | VDD(红)→3.3V GND(黑)→GND</li>
+    </ul>
+  </div>
+</div>
+
+<div class="step">
+  <div class="step-num">7</div>
+  <div class="step-body">
+    <h4>扬声器接线 (3 根 + RC 滤波 + PAM8302)</h4>
+    <ul>
+      <li><code>GPIO48</code> → <code>100Ω 电阻</code> → <code>PAM8302 IN+</code></li>
+      <li>在 PAM8302 IN+ 处 <b>焊 10nF (103) 电容到 GND</b></li>
+      <li><code>PAM8302 VDD</code> → <b>5V</b>, <code>GND</code> → <b>GND</b></li>
+      <li><code>PAM8302 OUT±</code> → 扬声器两端 (BTL, 不接地!)</li>
+    </ul>
+  </div>
+</div>
+
+<div class="step">
+  <div class="step-num">8</div>
+  <div class="step-body">
+    <h4>最终检查</h4>
+    <ul>
+      <li>所有 <b>GND 必须共地</b></li>
+      <li>I2C 上拉电阻已焊接 (SDA→3.3V, SCL→3.3V 各 4.7kΩ)</li>
+      <li>电机 START 下拉已焊接 (GPIO38→GND 4.7kΩ)</li>
+      <li>退耦电容已就位 (至少 4 颗 100nF)</li>
+      <li>电解电容极性正确 (470uF 长+短-)</li>
+      <li>1kΩ PT1000 参考电阻是精密电阻</li>
+      <li>扬声器 PAM8302 OUT+/OUT- 不接地</li>
+    </ul>
+  </div>
+</div>
+
+</div>
+
+<!-- WIRE ROUTING TABLE -->
+<h2>每一条线的走向 (Wire Routing Table)</h2>
+<div class="bom">
+<table>
+<thead><tr>
+  <th>#</th><th>起点</th><th>终点</th><th>信号类型</th><th>中间焊接</th>
+</tr></thead>
+<tbody>
+  <tr><td>1</td><td>ESP32 GPIO4</td><td>LCD D0</td><td>数据</td><td>直连</td></tr>
+  <tr><td>2</td><td>ESP32 GPIO5</td><td>LCD D1</td><td>数据</td><td>直连</td></tr>
+  <tr><td>3</td><td>ESP32 GPIO6</td><td>LCD D2</td><td>数据</td><td>直连</td></tr>
+  <tr><td>4</td><td>ESP32 GPIO7</td><td>LCD D3</td><td>数据</td><td>直连</td></tr>
+  <tr><td>5</td><td>ESP32 GPIO15</td><td>LCD D4</td><td>数据</td><td>直连</td></tr>
+  <tr><td>6</td><td>ESP32 GPIO16</td><td>LCD D5</td><td>数据</td><td>直连</td></tr>
+  <tr><td>7</td><td>ESP32 GPIO17</td><td>LCD D6</td><td>数据</td><td>直连</td></tr>
+  <tr><td>8</td><td>ESP32 GPIO18</td><td>LCD D7</td><td>数据</td><td>直连</td></tr>
+  <tr><td>9</td><td>ESP32 GPIO1</td><td>LCD CS</td><td>控制</td><td>直连</td></tr>
+  <tr><td>10</td><td>ESP32 GPIO42</td><td>LCD RS</td><td>控制</td><td>直连</td></tr>
+  <tr><td>11</td><td>ESP32 GPIO2</td><td>LCD WR</td><td>控制</td><td>直连</td></tr>
+  <tr><td>12</td><td>ESP32 GPIO46</td><td>LCD RST</td><td>控制</td><td>直连</td></tr>
+  <tr><td>13</td><td>ESP32 GPIO20</td><td>Touch SDA</td><td>I2C</td><td><b>4.7kΩ → 3.3V</b></td></tr>
+  <tr><td>14</td><td>ESP32 GPIO13</td><td>Touch SCL</td><td>I2C</td><td><b>4.7kΩ → 3.3V</b></td></tr>
+  <tr><td>15</td><td>ESP32 GPIO38</td><td>Motor START</td><td>控制</td><td><b>4.7kΩ → GND</b></td></tr>
+  <tr><td>16</td><td>ESP32 GPIO39</td><td>Motor PWM</td><td>PWM</td><td>直连</td></tr>
+  <tr><td>17</td><td>ESP32 GPIO40</td><td>Motor FG</td><td>脉冲</td><td>直连</td></tr>
+  <tr><td>18</td><td>ESP32 GPIO41</td><td>Y01 RX</td><td>UART</td><td>直连</td></tr>
+  <tr><td>19</td><td>ESP32 GPIO9</td><td>Y01 TX</td><td>UART</td><td>直连</td></tr>
+  <tr><td>20</td><td>ESP32 GPIO48</td><td>PAM8302 IN+</td><td>PWM</td><td><b>100Ω 串联 + 10nF(GND)</b></td></tr>
+  <tr><td>21</td><td>ESP32 GPIO3</td><td>温度传感器</td><td>ADC / OneWire</td><td>DS18B20(推荐): GPIO3+4.7kΩ上拉; PT1000: GPIO3+1kΩ分压</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="warning">
+  <b>⚠ 关键警告:</b><br>
+  • <b>所有 GND 必须共地!</b><br>
+  • <b>电解电容极性不能反!</b> 470uF/25V: 长脚(+)→12V, 短脚(-)→GND。接反会<u>爆炸</u>。<br>
+  • <b>PAM8302 输出不接地!</b> OUT+ 和 OUT- 直接接扬声器两端。<br>
+  • <b>Y01 用 5V 供电!</b> 不是 3.3V。
+</div>
+
+<div class="tip">
+  <b>💡 调试建议:</b><br>
+  • 先不通电, 用万用表蜂鸣档检查所有 GND 是否互通, VCC-GND 之间没有短路。<br>
+  • 烧录固件后串口监视器可看启动日志: <code>idf.py -p COM34 monitor</code>。<br>
+  • 触摸无响应? 检查 I2C 上拉电阻 (4.7kΩ) 是否焊接。<br>
+  • 电机不转? 检查 GPIO38 下拉电阻, 以及 470uF 电解电容是否正确焊接。
+</div>
+
+</div>
+</body>
+</html>
