@@ -1,0 +1,20 @@
+{
+	"folders": [
+		{
+			"name": "jhq",
+			"path": ".."
+		},
+		{
+			"name": "led",
+			"path": "../../../stm32/led/led"
+		},
+		{
+			"name": "stock-monitor",
+			"path": "../../../stock-monitor"
+		},
+		{
+			"path": "../../../stm32/smoke"
+		}
+	],
+	"settings": {}
+}
