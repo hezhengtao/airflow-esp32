@@ -139,6 +139,12 @@ idf.py -p COMx flash monitor
 - **DS18B20 温度校准**：游览器访问 `http://设备IP/calibrate?t=实际温度` 保存偏移量
 - **OTA 升级**：Web 控制台 → 设置 → 固件升级 → 上传 air_purifier.bin → 自动重启
 
+## 捐赠
+
+如果这个项目对你有帮助，欢迎请我喝杯咖啡 ☕
+
+<img src="docs/donate.png" width="240" alt="捐赠二维码">
+
 ## 许可证
 
 MIT License
